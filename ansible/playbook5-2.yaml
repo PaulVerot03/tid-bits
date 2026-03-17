@@ -1,0 +1,11 @@
+---
+-name : 
+host : production-server
+vars : 
+  nom_appli : monapp
+  port_appli : 8080
+tasks :
+  - name : créer dir
+    ansible.builtin.folder:
+      path: /opt{{nom_appli}}
+      state: present

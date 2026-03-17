@@ -1,0 +1,32 @@
+---
+- name: install-apache
+  hosts: production-server
+  become: true
+  tasks:
+    - name: Task 1 - Install httpd
+      dnf:
+        name: httpd
+        state: present
+        disable_gpg_check: yes
+        skip_broken: yes
+
+    - name: copy-file
+      copy:
+        src: /home/rocky/httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+        owner: apache
+        group: apache
+        backup: yes
+    - name: Download HTML file from GitHub
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/PaulVerot03/tid-bits/refs/heads/main/spacehey/index.html
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0644'
+
+    - name: start-apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes

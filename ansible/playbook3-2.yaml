@@ -1,0 +1,36 @@
+---
+- name: create-folders-and-users-and-htop
+  hosts: production-server
+  become: true
+  tasks:
+    - name: Create-groups
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - groupe1
+        - groupe2
+
+    - name: Create-user
+      ansible.builtin.user:
+        name: toto
+        groups: groupe1
+        append: true
+        state: present
+
+    - name: Create-folder
+      ansible.builtin.file:
+        path: /tmp/my-conf
+        state: touch
+        mode: '0600'
+
+    - name: Install-htop
+      ansible.builtin.dnf:  
+        name: htop
+        state: present
+
+
+    - name: Stop-crond
+      ansible.builtin.service:
+        name: crond
+        state: stopped
