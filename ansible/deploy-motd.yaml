@@ -9,7 +9,8 @@
         state: absent
 
     - name: Déployer le message du jour
-      copy:
+      ansible.builtin.template:
         src: motd.j2
         dest: /etc/motd
-        mode: '744'
+        owner: root
+        group: root 
