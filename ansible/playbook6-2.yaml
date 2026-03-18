@@ -1,0 +1,19 @@
+---
+- name: Déploiement Apache avec handler
+  hosts: production-server
+  become: true
+  tasks:
+    - name: Installer httpd
+      yum:
+        name: httpd
+        state: present
+    - name: Déployer la configuration
+      copy:
+        src: httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+      notify: Redemarrer httpd
+  handlers:
+    - name: Redemarrer httpd
+      service:
+        name: httpd
+        state: restarted
