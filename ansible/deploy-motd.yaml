@@ -6,7 +6,8 @@
     - name: Check folder
       ansible.builtin.file:
         name: /etc/motd
-        state: directory
+        state: absent
+
     - name: Déployer le message du jour
       copy:
         src: motd.j2
