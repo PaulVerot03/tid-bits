@@ -2,6 +2,8 @@
 - name: Déploiement Apache avec handler
   hosts: production-server
   become: true
+  vars:
+    file : httpd.conf
   tasks:
     - name: Installer httpd
       yum:
@@ -9,8 +11,9 @@
         state: present
     - name: Déployer la configuration
       copy:
-        src: httpd.conf
+        src: {{file}}
         dest: /etc/httpd/conf/httpd.conf
+        mode: '0644'
       notify: Redemarrer httpd
   handlers:
     - name: Redemarrer httpd

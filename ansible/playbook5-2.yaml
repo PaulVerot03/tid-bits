@@ -1,19 +1,21 @@
-- name: config port
+- name: Config port
   hosts: production-server
-  become : true
+  become: true
   vars:
     nom_appli: monapp
     port_appli: 8080
   tasks:
-    - name: créer dir
+    - name: Créer dir
       ansible.builtin.file:
         path: /opt/{{ nom_appli }}
         state: directory
-    - name: créer fichier de conf
+        mode: '774'
+    - name: Créer fichier de conf
       ansible.builtin.file:
         path: /opt/{{ nom_appli }}/config.txt
         state: touch
-    - name: écrire config
+        mode: '774'
+    - name: Ecrire config
       ansible.builtin.lineinfile:
         path: /opt/{{ nom_appli }}/config.txt
         line: "port={{ port_appli }}"

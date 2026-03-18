@@ -1,0 +1,22 @@
+- name: Affichage des facts
+  hosts: production-server
+  tasks:
+    - name: Afficher le hostname
+      debug:
+        msg: "La machine s'appelle {{ ansible_hostname }}"
+    - name : Afficher distrib et vers 
+      debug:
+        msg: "Distribution : {{ansible_distribution}} ; Version : {{ansible_distribution_version}}"
+    - name: Recup memeoire
+      shell: |
+        cat /proc/meminfo | grep MemTotal
+      register: memtotal
+
+    - name: Recup IP
+      shell: |
+        nmcli device show | grep IP4.ADDRESS | grep -v '127.' | head -n 1
+      register: ip_add
+
+    - name: Afficher mem et IP 
+      debug:
+        msg: "Memoire totale : {{memtotal.stdout}} Adresse IP : {{ip_add.stdout}}"
