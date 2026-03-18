@@ -5,10 +5,10 @@
   tasks:
     - name: Check folder
       ansible.builtin.file:
-        name: /etc/motd/
+        name: /etc/motd
         state: directory
     - name: Déployer le message du jour
       copy:
         src: motd.j2
-        dest: /etc/motd/
+        dest: /etc/motd
         mode: '744'
