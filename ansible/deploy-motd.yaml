@@ -1,0 +1,10 @@
+---
+- name: Deploy MOTD
+  hosts: production-server
+  become: true
+  tasks:
+    - name: Déployer le message du jour
+      copy:
+        src: motd.j2
+        dest: /etc/motd/
+        mode: '744'
